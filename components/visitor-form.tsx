@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Loader2, Sparkles } from "lucide-react";
+import { CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -84,169 +84,229 @@ export function VisitorForm() {
   }
 
   return (
-    <main className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <section className="grid gap-6 lg:grid-cols-[0.78fr_1fr] lg:items-start">
-          <aside className="lg:sticky lg:top-8">
-            <div className="rounded-2xl border border-[var(--color-border)] bg-white p-5 shadow-sm sm:p-7">
-              <div className="mx-auto mb-5 flex h-28 w-40 items-center justify-center overflow-hidden rounded-xl bg-white sm:h-32 sm:w-48">
-                <Image
-                  src="/logo.jpeg"
-                  alt="Enthronement Assembly logo"
-                  width={240}
-                  height={162}
-                  priority
-                  className="h-full w-full object-contain"
-                />
-              </div>
-              <h1 className="text-center text-2xl font-bold leading-tight text-[var(--color-secondary)] sm:text-3xl">
-                Enthronement Assembly Ontario
-              </h1>
-              <p className="mx-auto mt-3 max-w-sm text-center text-sm leading-6 text-[var(--color-muted)] sm:text-base">
-                Activating and actualizing God&apos;s royalty in you
-              </p>
-              <div className="mt-6 rounded-xl bg-[var(--color-surface)] p-4 text-sm leading-6 text-[var(--color-muted)]">
-                Welcome. Share a few details so our team can thank you for visiting, pray with you,
-                and help with your next step.
-              </div>
-            </div>
-          </aside>
+    <main className="min-h-screen px-4 py-10 sm:px-6 sm:py-14">
+      <div className="mx-auto max-w-[760px]">
+        {/* Hero */}
+        <header className="ea-reveal mb-9 text-center">
+          <div className="mx-auto mb-5 flex h-24 w-32 items-center justify-center overflow-hidden rounded-2xl bg-white p-2.5 shadow-[var(--shadow-md)]">
+            <Image
+              src="/logo.jpeg"
+              alt="Enthronement Assembly logo"
+              width={224}
+              height={160}
+              priority
+              className="h-full w-full object-contain"
+            />
+          </div>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-gold-deep)]">
+            First Timers Welcome
+          </p>
+          <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-[var(--color-secondary)] sm:text-4xl">
+            You are <span className="text-[var(--color-primary)]">Royalty.</span>
+          </h1>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[var(--color-body)] sm:text-base">
+            Activating and actualizing God&apos;s royalty in you.
+          </p>
+        </header>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {errors.root ? <ErrorText>{errors.root.message}</ErrorText> : null}
+        {/* Form card */}
+        <div
+          className="ea-reveal overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-lg)]"
+          style={{ animationDelay: "0.12s" }}
+        >
+          {/* Card header */}
+          <div className="relative overflow-hidden bg-[linear-gradient(150deg,var(--color-royal-deep),var(--color-secondary))] px-6 py-8 sm:px-10 sm:py-10">
+            <div className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(203,151,39,0.4),transparent_70%)]" />
+            <div className="pointer-events-none absolute -bottom-16 -left-10 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(155,81,224,0.32),transparent_70%)]" />
+            <div className="relative">
+              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--color-gold-bright)]">
+                Enthronement Assembly Ontario
+              </p>
+              <h2 className="mt-2 text-2xl font-bold text-white sm:text-[1.75rem]">
+                Welcome, First-Time Guest
+              </h2>
+              <p className="mt-2 max-w-md text-sm leading-6 text-white/75">
+                We&apos;re honoured you joined us today. Share a few details so our team
+                can thank you, pray with you, and walk your next step together.
+              </p>
+            </div>
+          </div>
+
+          {/* Card body */}
+          <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 sm:px-10 sm:py-10">
+            {errors.root ? (
+              <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                {errors.root.message}
+              </div>
+            ) : null}
             {submitted ? <SuccessMessage /> : null}
 
-            <FormSection title="About You" description="Your basic contact details help us follow up with care.">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="First Name" error={errors.firstName?.message}>
-                  <Input autoComplete="given-name" {...register("firstName")} />
-                </Field>
-                <Field label="Last Name" error={errors.lastName?.message}>
-                  <Input autoComplete="family-name" {...register("lastName")} />
-                </Field>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Phone Number" error={errors.phoneNumber?.message}>
-                  <Input type="tel" autoComplete="tel" inputMode="tel" {...register("phoneNumber")} />
-                </Field>
-                <Field label="Email" error={errors.email?.message}>
-                  <Input type="email" autoComplete="email" {...register("email")} />
-                </Field>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <RadioField
-                  label="Gender"
-                  name="gender"
-                  options={["Male", "Female"]}
-                  control={control}
-                  error={errors.gender?.message}
-                />
-                <RadioField
-                  label="Profession"
-                  name="profession"
-                  options={["Student", "Professional"]}
-                  control={control}
-                  error={errors.profession?.message}
-                  layout="stacked"
-                />
-              </div>
-
-              <Field label="Home Address" error={errors.homeAddress?.message}>
-                <Textarea autoComplete="street-address" className="min-h-24" {...register("homeAddress")} />
+            <SectionHeading>Your Details</SectionHeading>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="First Name" required error={errors.firstName?.message}>
+                <Input autoComplete="given-name" placeholder="First name" {...register("firstName")} />
               </Field>
-            </FormSection>
+              <Field label="Last Name" required error={errors.lastName?.message}>
+                <Input autoComplete="family-name" placeholder="Last name" {...register("lastName")} />
+              </Field>
+            </div>
 
-            <FormSection title="Your Experience" description="Tell us how today connected with you.">
-              <RadioField
-                label="How did you hear about us?"
-                name="heardAboutUs"
-                options={[...hearOptions]}
+            <div className="mt-5 grid gap-5 sm:grid-cols-2">
+              <Field label="Phone Number" required error={errors.phoneNumber?.message}>
+                <Input
+                  type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  placeholder="e.g. 0803 000 0000"
+                  {...register("phoneNumber")}
+                />
+              </Field>
+              <Field label="Email" required error={errors.email?.message}>
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  {...register("email")}
+                />
+              </Field>
+            </div>
+
+            <div className="mt-5 grid gap-5 sm:grid-cols-2">
+              <ChipRadioField
+                label="Gender"
+                name="gender"
+                options={["Male", "Female"]}
                 control={control}
-                error={errors.heardAboutUs?.message}
+                error={errors.gender?.message}
               />
-
-              {showInviterName ? (
-                <Field label="Name of Inviter" error={errors.inviterName?.message}>
-                  <Input {...register("inviterName")} />
-                </Field>
-              ) : null}
-
-              {showHeardOther ? (
-                <Field label="Please specify" error={errors.heardOther?.message}>
-                  <Input {...register("heardOther")} />
-                </Field>
-              ) : null}
-
-              <RadioField
-                label="Next Steps Intent"
-                name="nextStepsIntent"
-                options={["Just visiting", "I want to become a member"]}
+              <ChipRadioField
+                label="Profession"
+                name="profession"
+                options={["Student", "Professional"]}
                 control={control}
-                error={errors.nextStepsIntent?.message}
+                error={errors.profession?.message}
               />
+            </div>
 
+            <div className="mt-5">
+              <Field label="Home Address" hint="Optional" error={errors.homeAddress?.message}>
+                <Textarea
+                  autoComplete="street-address"
+                  className="min-h-24"
+                  placeholder="Street, area, city"
+                  {...register("homeAddress")}
+                />
+              </Field>
+            </div>
+
+            <SectionHeading>How You Found Us</SectionHeading>
+            <ChipRadioField
+              label="How did you hear about us?"
+              name="heardAboutUs"
+              options={[...hearOptions]}
+              control={control}
+              error={errors.heardAboutUs?.message}
+            />
+
+            {showInviterName ? (
+              <div className="mt-5">
+                <Field label="Name of the person who invited you" required error={errors.inviterName?.message}>
+                  <Input placeholder="Inviter's full name" {...register("inviterName")} />
+                </Field>
+              </div>
+            ) : null}
+
+            {showHeardOther ? (
+              <div className="mt-5">
+                <Field label="Please specify" required error={errors.heardOther?.message}>
+                  <Input placeholder="How did you hear about us?" {...register("heardOther")} />
+                </Field>
+              </div>
+            ) : null}
+
+            <SectionHeading>Your Experience</SectionHeading>
+            <ChipRadioField
+              label="What is your next step with us?"
+              name="nextStepsIntent"
+              options={["Just visiting", "I want to become a member"]}
+              control={control}
+              error={errors.nextStepsIntent?.message}
+            />
+
+            <div className="mt-5">
               <CheckboxGroup
                 label="What did you like about the service?"
                 values={likedAboutService}
-                onChange={(value) => setValue("likedAboutService", value, { shouldDirty: true, shouldValidate: true })}
+                onChange={(value) =>
+                  setValue("likedAboutService", value, { shouldDirty: true, shouldValidate: true })
+                }
                 error={errors.likedAboutService?.message}
               />
+            </div>
 
-              {showLikedOther ? (
-                <Field label="Please specify" error={errors.likedOther?.message}>
-                  <Input {...register("likedOther")} />
+            {showLikedOther ? (
+              <div className="mt-5">
+                <Field label="Tell us more" required error={errors.likedOther?.message}>
+                  <Input placeholder="What else stood out to you?" {...register("likedOther")} />
                 </Field>
-              ) : null}
-            </FormSection>
+              </div>
+            ) : null}
 
-            <FormSection title="How Can We Help?" description="Let us know how our team can serve you after today.">
-              <RadioField
-                label="Can we contact you?"
-                name="canContact"
-                options={["Yes", "No"]}
-                control={control}
-                error={errors.canContact?.message}
-              />
+            <SectionHeading>How Can We Help?</SectionHeading>
+            <ChipRadioField
+              label="Can we contact you?"
+              name="canContact"
+              options={["Yes", "No"]}
+              control={control}
+              error={errors.canContact?.message}
+            />
 
+            <div className="mt-5">
               <Field label="Prayer Request" hint="Optional" error={errors.prayerRequest?.message}>
                 <Textarea
-                  className="min-h-40"
-                  placeholder="Share anything you would like us to pray about."
+                  className="min-h-36"
+                  placeholder="Share anything you would like us to stand with you in prayer about."
                   {...register("prayerRequest")}
                 />
               </Field>
-            </FormSection>
+            </div>
 
-            <Button type="submit" size="lg" variant="gold" className="w-full text-base" disabled={isSubmitting}>
-              {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
-              {isSubmitting ? "Submitting..." : "Submit Visitor Form"}
-            </Button>
+            <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-[var(--color-border)] pt-6 sm:flex-row">
+              <p className="max-w-xs text-center text-xs leading-5 text-[var(--color-muted)] sm:text-left">
+                Your information is kept private and used only for pastoral follow-up.
+              </p>
+              <Button
+                type="submit"
+                size="lg"
+                variant="gold"
+                className="w-full sm:w-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Sparkles className="h-5 w-5" />
+                )}
+                {isSubmitting ? "Submitting..." : "Submit Visitor Form"}
+              </Button>
+            </div>
           </form>
-        </section>
+        </div>
+
+        <p className="mt-7 text-center text-xs text-[var(--color-muted)]">
+          Enthronement Assembly Ontario &middot; You are Royalty
+        </p>
       </div>
     </main>
   );
 }
 
-function FormSection({
-  children,
-  description,
-  title,
-}: {
-  children: React.ReactNode;
-  description: string;
-  title: string;
-}) {
+function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <section className="rounded-2xl border border-[var(--color-border)] bg-white p-4 shadow-sm sm:p-6">
-      <div className="mb-5 border-l-4 border-[var(--color-primary)] pl-4">
-        <h2 className="text-xl font-bold text-[var(--color-secondary)]">{title}</h2>
-        <p className="mt-1 text-sm leading-6 text-[var(--color-muted)]">{description}</p>
-      </div>
-      <div className="space-y-5">{children}</div>
-    </section>
+    <h3 className="mb-5 mt-8 flex items-center gap-2.5 border-b border-[var(--color-border)] pb-2.5 text-base font-semibold text-[var(--color-secondary)] first:mt-0">
+      <span className="h-2 w-2 rotate-45 rounded-[2px] bg-[var(--color-primary)]" />
+      {children}
+    </h3>
   );
 }
 
@@ -255,17 +315,24 @@ function Field({
   error,
   hint,
   label,
+  required,
 }: {
   children: React.ReactNode;
   error?: string;
   hint?: string;
   label: string;
+  required?: boolean;
 }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <Label>{label}</Label>
-        {hint ? <span className="text-xs font-medium text-[var(--color-muted)]">{hint}</span> : null}
+        <Label className="text-[var(--color-text)]">
+          {label}
+          {required ? <span className="ml-0.5 text-[var(--color-gold-deep)]">*</span> : null}
+        </Label>
+        {hint ? (
+          <span className="text-xs font-medium text-[var(--color-muted)]">{hint}</span>
+        ) : null}
       </div>
       {children}
       {error ? <ErrorText>{error}</ErrorText> : null}
@@ -273,24 +340,29 @@ function Field({
   );
 }
 
-function RadioField<TName extends "gender" | "profession" | "heardAboutUs" | "nextStepsIntent" | "canContact">({
+const chipClass =
+  "flex min-h-12 cursor-pointer items-center gap-2.5 rounded-full border-[1.5px] border-[var(--color-border)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--color-body)] transition-all duration-200 hover:border-[var(--color-gold-bright)]";
+const chipActiveClass =
+  "border-[var(--color-secondary)] bg-[var(--color-royal-tint)] font-semibold text-[var(--color-secondary)]";
+
+function ChipRadioField<
+  TName extends "gender" | "profession" | "heardAboutUs" | "nextStepsIntent" | "canContact",
+>({
   control,
   error,
   label,
-  layout = "responsive",
   name,
   options,
 }: {
   control: ReturnType<typeof useForm<VisitorFormValues>>["control"];
   error?: string;
   label: string;
-  layout?: "responsive" | "stacked";
   name: TName;
   options: string[];
 }) {
   return (
     <div className="space-y-3">
-      <Label>{label}</Label>
+      <Label className="text-[var(--color-text)]">{label}</Label>
       <Controller
         control={control}
         name={name}
@@ -298,15 +370,12 @@ function RadioField<TName extends "gender" | "profession" | "heardAboutUs" | "ne
           <RadioGroup
             onValueChange={field.onChange}
             value={field.value ?? ""}
-            className={cn("grid gap-3", layout === "responsive" && "sm:grid-cols-2")}
+            className="flex flex-wrap gap-2.5"
           >
             {options.map((option) => (
               <Label
                 key={option}
-                className={cn(
-                  "flex min-h-13 cursor-pointer items-center gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-sm font-semibold transition hover:border-[var(--color-primary)] sm:text-base",
-                  field.value === option && "border-[var(--color-primary)] bg-[rgba(201,162,39,0.12)]",
-                )}
+                className={cn(chipClass, field.value === option && chipActiveClass)}
               >
                 <RadioGroupItem value={option} />
                 <span>{option}</span>
@@ -333,22 +402,18 @@ function CheckboxGroup({
 }) {
   return (
     <div className="space-y-3">
-      <Label>{label}</Label>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <Label className="text-[var(--color-text)]">{label}</Label>
+      <div className="flex flex-wrap gap-2.5">
         {serviceLikes.map((item) => {
           const checked = values.includes(item);
           return (
-            <Label
-              key={item}
-              className={cn(
-                "flex min-h-13 cursor-pointer items-center gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-sm font-semibold transition hover:border-[var(--color-primary)]",
-                checked && "border-[var(--color-primary)] bg-[rgba(201,162,39,0.12)]",
-              )}
-            >
+            <Label key={item} className={cn(chipClass, checked && chipActiveClass)}>
               <Checkbox
                 checked={checked}
                 onCheckedChange={(nextChecked) => {
-                  const next = nextChecked ? [...values, item] : values.filter((value) => value !== item);
+                  const next = nextChecked
+                    ? [...values, item]
+                    : values.filter((value) => value !== item);
                   onChange(next);
                 }}
               />
@@ -368,8 +433,10 @@ function ErrorText({ children }: { children: React.ReactNode }) {
 
 function SuccessMessage() {
   return (
-    <div className="rounded-2xl border border-[rgba(201,162,39,0.42)] bg-[rgba(201,162,39,0.12)] p-4 text-sm leading-6 text-[var(--color-secondary)]">
-      Thank you for visiting Enthronement Assembly Ontario. We are grateful you joined us today.
+    <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-[rgba(97,206,112,0.4)] bg-[rgba(97,206,112,0.14)] px-4 py-3.5 text-sm font-medium leading-6 text-[var(--color-green-deep)]">
+      <CheckCircle2 className="h-5 w-5 shrink-0" />
+      Thank you for visiting Enthronement Assembly Ontario. We&apos;re grateful you joined us today
+      &mdash; welcome to the family.
     </div>
   );
 }

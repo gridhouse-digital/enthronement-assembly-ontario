@@ -1,14 +1,46 @@
 @import "tailwindcss";
 
+/* ============================================================
+   ENTHRONEMENT ASSEMBLY — DESIGN SYSTEM v1.0
+   Concept: "You are Royalty" — regal purple, precious gold
+   ============================================================ */
 :root {
-  --color-primary: #c9a227;
-  --color-secondary: #3b235a;
+  /* Brand — purple */
+  --color-secondary: #481053;     /* royal purple (primary brand) */
+  --color-royal-deep: #2c0936;
+  --color-royal-black: #1a0521;
+  --color-royal-mid: #6b2a78;
+  --color-violet: #9b51e0;        /* bright interactive purple */
+  --color-royal-tint: #f4eff6;
+
+  /* Brand — gold */
+  --color-primary: #cb972b;       /* gold accent */
+  --color-gold-bright: #e3b95a;
+  --color-gold-deep: #a87a1e;
+  --color-gold-tint: #fbf4e6;
+
+  /* Accent — green (success only) */
+  --color-green: #61ce70;
+  --color-green-deep: #2f9e47;
+
+  /* Neutrals */
   --color-bg: #ffffff;
-  --color-surface: #f8f6f2;
-  --color-text: #1f1f1f;
-  --color-muted: #6b6b6b;
-  --color-border: #e8e1d4;
-  --color-ring: #c9a227;
+  --color-surface: #fbf4e6;       /* warm cream */
+  --color-text: #241b2b;          /* ink */
+  --color-body: #5a525f;
+  --color-muted: #8a8290;
+  --color-border: #e7e1ec;
+  --color-ring: #9b51e0;
+
+  --font-display: var(--font-roboto-slab), Georgia, serif;
+  --font-body: var(--font-roboto), -apple-system, system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(36, 7, 46, 0.06), 0 1px 3px rgba(36, 7, 46, 0.05);
+  --shadow-md: 0 8px 24px rgba(36, 7, 46, 0.1);
+  --shadow-lg: 0 24px 60px rgba(36, 7, 46, 0.18);
+  --shadow-gold: 0 10px 30px rgba(203, 151, 43, 0.28);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -18,7 +50,8 @@
   --color-secondary: var(--color-secondary);
   --color-muted: var(--color-muted);
   --color-surface: var(--color-surface);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
 * {
@@ -31,14 +64,43 @@ html {
 
 body {
   min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--color-body);
+  line-height: 1.65;
   background:
-    radial-gradient(circle at top left, rgba(201, 162, 39, 0.14), transparent 34rem),
-    linear-gradient(180deg, #ffffff 0%, #fbfaf7 42%, #ffffff 100%);
-  color: var(--color-text);
+    radial-gradient(110% 70% at 0% 0%, rgba(155, 81, 224, 0.08), transparent 60%),
+    radial-gradient(120% 80% at 100% 100%, rgba(203, 151, 43, 0.12), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--color-gold-tint) 55%, #ffffff 100%);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    color: var(--color-text);
+    line-height: 1.15;
+  }
 }
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
+}
+
+@keyframes ea-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ea-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  animation: ea-rise 0.9s var(--ease) forwards;
 }
