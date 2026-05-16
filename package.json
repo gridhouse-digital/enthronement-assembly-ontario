@@ -18,6 +18,7 @@
     "clsx": "latest",
     "lucide-react": "latest",
     "next": "latest",
+    "qrcode.react": "^4.2.0",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
@@ -33,6 +34,8 @@
     "typescript": "latest"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["sharp"]
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }
