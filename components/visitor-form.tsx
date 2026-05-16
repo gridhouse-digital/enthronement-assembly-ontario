@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 
 export function VisitorForm() {
   const [submitted, setSubmitted] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
   const {
     control,
     formState: { errors, isSubmitting },
@@ -81,6 +82,10 @@ export function VisitorForm() {
 
     reset(visitorDefaultValues);
     setSubmitted(true);
+    window.setTimeout(() => {
+      successRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      successRef.current?.focus({ preventScroll: true });
+    }, 0);
   }
 
   return (
@@ -139,7 +144,7 @@ export function VisitorForm() {
                 {errors.root.message}
               </div>
             ) : null}
-            {submitted ? <SuccessMessage /> : null}
+            {submitted ? <SuccessMessage ref={successRef} /> : null}
 
             <SectionHeading>Your Details</SectionHeading>
             <div className="grid gap-5 sm:grid-cols-2">
@@ -431,12 +436,16 @@ function ErrorText({ children }: { children: React.ReactNode }) {
   return <p className="text-sm font-medium text-red-600">{children}</p>;
 }
 
-function SuccessMessage() {
+const SuccessMessage = forwardRef<HTMLDivElement>(function SuccessMessage(_, ref) {
   return (
-    <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-[rgba(97,206,112,0.4)] bg-[rgba(97,206,112,0.14)] px-4 py-3.5 text-sm font-medium leading-6 text-[var(--color-green-deep)]">
+    <div
+      ref={ref}
+      tabIndex={-1}
+      className="mb-6 flex scroll-mt-8 items-center gap-2.5 rounded-xl border border-[rgba(97,206,112,0.4)] bg-[rgba(97,206,112,0.14)] px-4 py-3.5 text-sm font-medium leading-6 text-[var(--color-green-deep)] outline-none focus-visible:ring-4 focus-visible:ring-[rgba(97,206,112,0.22)]"
+    >
       <CheckCircle2 className="h-5 w-5 shrink-0" />
       Thank you for visiting Enthronement Assembly Ontario. We&apos;re grateful you joined us today
       &mdash; welcome to the family.
     </div>
   );
-}
+});
