@@ -21,7 +21,6 @@ import {
 import { cn } from "@/lib/utils";
 
 type StepId =
-  | "welcome"
   | "firstName"
   | "lastName"
   | "phoneNumber"
@@ -49,14 +48,6 @@ type Step = {
 };
 
 const baseSteps: Step[] = [
-  {
-    id: "welcome",
-    title: "Welcome to Enthronement Assembly Ontario",
-    description: "A few quick questions will help us thank you, pray with you, and follow up well.",
-    fields: [],
-    optional: true,
-    section: "Welcome",
-  },
   {
     id: "firstName",
     title: "What is your first name?",
@@ -238,7 +229,6 @@ export function VisitorForm() {
   const progress = Math.round(((activeIndex + 1) / steps.length) * 100);
   const isFirstStep = activeIndex === 0;
   const isReviewStep = activeStep.id === "review";
-  const isWelcomeStep = activeStep.id === "welcome";
 
   useEffect(() => {
     if (activeIndex > steps.length - 1) {
@@ -451,7 +441,7 @@ export function VisitorForm() {
                 </Button>
               ) : (
                 <Button type="submit" size="lg" variant="gold" className="w-full sm:w-auto">
-                  {isWelcomeStep ? "Start" : activeStep.optional ? "Continue" : "Continue"}
+                  Continue
                 </Button>
               )}
             </div>
@@ -493,15 +483,6 @@ function renderStep({
   values: VisitorFormValues;
 }) {
   switch (activeStep.id) {
-    case "welcome":
-      return (
-        <div className="rounded-2xl bg-[var(--color-royal-tint)] p-5 text-[var(--color-secondary)]">
-          <p className="text-lg font-semibold">This will take about one minute.</p>
-          <p className="mt-2 text-sm leading-6 text-[var(--color-body)]">
-            Use your keyboard&apos;s Next key on typed questions. Choice questions move forward automatically.
-          </p>
-        </div>
-      );
     case "firstName":
       return (
         <TextStep
